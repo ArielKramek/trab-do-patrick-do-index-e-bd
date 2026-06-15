@@ -1,0 +1,23 @@
+[
+    {
+        "nome": "peixe",
+        "data_nasc": "7/06/2026",
+        "cpf": 12345678900,
+        "email": "peixe.suculento@gmail.com",
+        "senha": "Peixão098765"
+    },
+    {
+        "nome": "rato",
+        "data_nasc": "7/06/2025",
+        "cpf": 12345678901,
+        "email": "rato.brabo@gmail.com",
+        "senha": "ratão098765"
+    },
+    {
+        "nome": "pombo",
+        "data_nasc": "5/05/2023",
+        "cpf": 12345678911,
+        "email": "pombo.voante@gmail.com",
+        "senha": "pombão098765"
+    }
+]
