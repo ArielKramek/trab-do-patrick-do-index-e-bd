@@ -1,6 +1,6 @@
 /*npm init
  npm i express
- http://localhost:3000/perfil*/
+ http://localhost:3000/clientes*/
 
 
 const express = require("express")
@@ -30,11 +30,39 @@ app.get("/ola", (req, res)=>{
 })
 
 app.get("/perfil", (req, res)=>{ 
+    res.json({nome:"Ariel Gregorio Kramek",
+             idade: "16 anos"
+ })
+ })
+ 
+ app.get("/clientes", (req, res) =>{
+     try{
+         const bd = JSON.parse(fs.readFileSync("bd.json", "utf8"))
+         res.status(200).json({resposta:bd})
+     }catch{
+         res.status(500).json({erro: erro.message})
+     }
+ })
+ 
+ app.listen(port, ()=>{
+     console.log("API executando na porta "+ port)
+ })
+ // get http://localhost:3000/clienteset("/perfil", (req, res)=>{ 
    res.json({nome:"Ariel Gregorio Kramek",
             idade: "16 anos"
 })
 })
 
+app.get("/clientes", (req, res) =>{
+    try{
+        const bd = JSON.parse(fs.readFileSync("bd.json", "utf8"))
+        res.status(200).json({resposta:bd})
+    }catch{
+        res.status(500).json({erro: erro.message})
+    }
+})
+
 app.listen(port, ()=>{
     console.log("API executando na porta "+ port)
 })
+// get http://localhost:3000/clientes
