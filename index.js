@@ -1,68 +1,78 @@
-/*npm init
- npm i express
- http://localhost:3000/clientes*/
-
-
+/* 
+Instale as bibliotecas e o cliente de API:
+npm init
+npm i express
+Procure pela extensão RapidAPI Client no VSCode.
+*/
+// Para executar a API no terminal: node index.js
+// Link para testar a API: http://localhost:3000/rota
 const express = require("express")
 const app = express()
 const port = 3000
-app.use(express.json())
-const fs = require('fs')
+app.use(express.json()) // configura API para usar JSON.
+const fs = require('fs') // importa leitura e escrita de arquivos.
 
-app.post("/clientes", (req,res) =>{
-    const cliente=req.body
-    //abrir arquivo
-   try{
-    const bd = JSON.parse(fs.readFileSync("bd.json", "utf8"))
-    //adicionar o cliente
-    bd.push(cliente)
-    //salvar o arquivo
-    fs.writeFileSync("bd.json",JSON.stringify(bd), "utf8")
-    //resposta
-    res.status(201).json({resposta: "Cliente Cadastrado!!!!!!!"})
-   }catch (erro){
-    res.status(500).json({erro: erro.message})
-   } 
-})
-
-app.get("/ola", (req, res)=>{
-    res.json({resposta:"olá mundo"})
-})
-
-app.get("/perfil", (req, res)=>{ 
-    res.json({nome:"Ariel Gregorio Kramek",
-             idade: "16 anos"
- })
- })
- 
- app.get("/clientes", (req, res) =>{
-     try{
-         const bd = JSON.parse(fs.readFileSync("bd.json", "utf8"))
-         res.status(200).json({resposta:bd})
-     }catch{
-         res.status(500).json({erro: erro.message})
-     }
- })
- 
- app.listen(port, ()=>{
-     console.log("API executando na porta "+ port)
- })
- // get http://localhost:3000/clienteset("/perfil", (req, res)=>{ 
-   res.json({nome:"Ariel Gregorio Kramek",
-            idade: "16 anos"
-})
-})
-
-app.get("/clientes", (req, res) =>{
-    try{
+//post
+app.post("/musicas", (req, res) => {
+    const musicas = req.body
+    try {
+        // abrir o arquivo
         const bd = JSON.parse(fs.readFileSync("bd.json", "utf8"))
-        res.status(200).json({resposta:bd})
-    }catch{
+        // adicionar o cliente
+        bd.push(musicas)
+        // salvar o arquivo
+        fs.writeFileSync("bd.json", JSON.stringify(bd), "utf8")
+        // resposta
+        res.status(201).json({resposta: "Música adicionada!"})
+    } catch (erro) {
+        res.status(500).json({erro: erro.message})
+    }
+
+
+    //get
+})
+app.get("/musicas", (req, res) => {
+    try {
+        const bd = JSON.parse(fs.readFileSync("bd.json", "utf8"))
+        res.status(200).json({resposta: bd})
+    } catch (erro) {
         res.status(500).json({erro: erro.message})
     }
 })
 
-app.listen(port, ()=>{
-    console.log("API executando na porta "+ port)
+//deletar post
+
+app.delete("/musicas/:id", (req, res) => {
+    // pegar o id da rota
+    const id = req.params.id
+    try {
+        // abrir o banco de dados
+        const bd = JSON.parse(fs.readFileSync("bd.json", "utf8"))
+        // encontrar o índice do cliente a ser excluido
+        const indiceMusicas = bd.findIndex((musicas) => musicas.id == id)
+        // remover o indice da lista
+        if (indiceMusicas == -1) {
+            return res.status(404).json({erro: "O cliente não existe"})
+        }
+        bd.splice(indiceMusicas, 1)
+        
+        // atualizar o arquivo
+        fs.writeFileSync("bd.json", JSON.stringify(bd, null, 2), "utf8")
+        // dar uma resposta para o cliente
+        res.status(200).json({resposta: "Musica excluída com sucesso!"})
+    } catch (error){
+        res.status(500).json({erro: erro.message})
+    }
 })
-// get http://localhost:3000/clientes
+
+
+
+
+
+
+
+
+// Execução da API:
+app.listen(port, ()=>{
+    console.log("API rodando na porta " + port)
+})
